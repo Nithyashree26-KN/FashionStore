@@ -1,0 +1,221 @@
+/* ========================= */
+/* LOGIN PAGE */
+/* ========================= */
+
+.login-page{
+
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    background: #f5f5f5;
+}
+
+/* LEFT SIDE */
+
+.login-banner{
+
+    position: relative;
+
+    background:
+    url("../images/model2.png");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay{
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+    linear-gradient(
+    rgba(0,0,0,0.45),
+    rgba(0,0,0,0.55)
+    );
+}
+
+.banner-content{
+
+    position: relative;
+
+    z-index: 2;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 40px;
+}
+
+.banner-content h1{
+
+    font-size: 70px;
+
+    margin-bottom: 25px;
+
+    font-weight: 800;
+}
+
+.banner-content p{
+
+    font-size: 24px;
+
+    line-height: 1.7;
+}
+
+/* RIGHT SIDE */
+
+.login-container{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+}
+
+.login-box{
+
+    width: 100%;
+    max-width: 480px;
+
+    background: white;
+
+    padding: 50px;
+
+    border-radius: 30px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.1);
+}
+
+.login-box h2{
+
+    font-size: 48px;
+
+    color: #7a0000;
+
+    margin-bottom: 10px;
+}
+
+.login-subtitle{
+
+    color: #666;
+
+    margin-bottom: 35px;
+
+    font-size: 18px;
+}
+
+/* INPUTS */
+
+.input-box{
+
+    margin-bottom: 25px;
+}
+
+.input-box label{
+
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-weight: bold;
+
+    color: #333;
+}
+
+.input-box input{
+
+    width: 100%;
+
+    padding: 18px;
+
+    border-radius: 14px;
+
+    border: 1px solid #ddd;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.input-box input:focus{
+
+    border-color: #8b0000;
+
+    box-shadow:
+    0 0 10px rgba(139,0,0,0.2);
+}
+
+/* BUTTON */
+
+.login-btn{
+
+    width: 100%;
+
+    padding: 18px;
+
+    border: none;
+
+    border-radius: 50px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #7a0000,
+    #b00000
+    );
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.login-btn:hover{
+
+    transform: translateY(-3px);
+}
+
+/* ERROR */
+
+.error-message{
+
+    color: red;
+
+    margin-bottom: 20px;
+
+    font-weight: bold;
+}
+
+/* MOBILE */
+
+@media(max-width:992px){
+
+    .login-page{
+
+        grid-template-columns: 1fr;
+    }
+
+    .login-banner{
+
+        display: none;
+    }
+}
