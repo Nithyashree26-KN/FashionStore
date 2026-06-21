@@ -3,7 +3,7 @@ package com.fashionstore.controller;
 import java.io.IOException;
 import java.util.List;
 
-import com.fashionstore.model.Product;
+import com.fashionstore.model.CartItem;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,22 +25,24 @@ public class RemoveCartServlet extends HttpServlet {
         int productId =
                 Integer.parseInt(request.getParameter("id"));
 
-        HttpSession session = request.getSession();
+        HttpSession session =
+                request.getSession();
 
-        List<Product> cart =
-                (List<Product>) session.getAttribute("cart");
+        List<CartItem> cart =
+                (List<CartItem>) session.getAttribute("cart");
 
         if(cart != null){
 
             cart.removeIf(
-                p -> p.getProductId() == productId
+                    item -> item.getProduct()
+                    .getProductId() == productId
             );
 
             session.setAttribute("cart", cart);
         }
 
         response.sendRedirect(
-            request.getContextPath() + "/cart"
+                request.getContextPath() + "/cart"
         );
     }
 }

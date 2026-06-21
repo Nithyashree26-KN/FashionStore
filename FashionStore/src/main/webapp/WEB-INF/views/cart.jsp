@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.fashionstore.model.CartItem" %>
 <%@ page import="com.fashionstore.model.Product" %>
+<%@ page import="com.fashionstore.utils.ImageUtil" %>
 
 <!DOCTYPE html>
 <html>
@@ -11,125 +12,205 @@
 
     <title>Cart - FashionStore</title>
 
+    <!-- MAIN CSS -->
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/css/main.css">
+
+    <!-- CART CSS -->
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/css/cart.css">
 
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <jsp:include page="/WEB-INF/views/partials/navbar.jsp" />
 
-<div class="container">
+<div class="cart-page">
 
-    <h1 class="section-title">
+    <!-- PAGE TITLE -->
+
+    <h1 class="cart-main-title">
         Shopping Cart
     </h1>
 
-    <div class="cart-container">
+    <div class="cart-layout">
 
-        <%
+        <!-- LEFT SIDE -->
 
-            List<CartItem> cartItems =
-                    (List<CartItem>) request.getAttribute("cartItems");
+        <div class="cart-left-section">
 
-            double total = 0;
+            <%
 
-            if(cartItems != null && !cartItems.isEmpty()){
+                List<CartItem> cartItems =
+                        (List<CartItem>) request.getAttribute("cartItems");
 
-                for(CartItem item : cartItems){
+                double total = 0;
 
-                    Product p = item.getProduct();
+                if(cartItems != null && !cartItems.isEmpty()){
 
-                    total += item.getTotalPrice();
+                    for(CartItem item : cartItems){
 
-        %>
+                        Product p = item.getProduct();
 
-        <div class="cart-item">
+                        total += item.getTotalPrice();
 
-            <div class="cart-image">
+            %>
 
-                <img src="${pageContext.request.contextPath}/assets/images/<%= p.getImageUrl() %>">
+            <!-- SINGLE PRODUCT CARD -->
+
+            <div class="premium-cart-card">
+
+                <!-- PRODUCT IMAGE -->
+
+                <div class="premium-cart-image">
+
+                    <img src="${pageContext.request.contextPath}/<%= ImageUtil.getImageUrl(p) %>"
+     alt="Product Image">
+
+                </div>
+
+                <!-- PRODUCT DETAILS -->
+
+                <div class="premium-cart-details">
+
+                    <h2>
+                        <%= p.getProductName() %>
+                    </h2>
+
+                    <p class="premium-price">
+                        ₹ <%= p.getPrice() %>
+                    </p>
+
+                    <!-- QUANTITY -->
+
+                    <div class="premium-qty-box">
+
+                        <a href="${pageContext.request.contextPath}/cart?action=decrease&id=<%= p.getProductId() %>"
+                           class="premium-qty-btn">
+
+                            -
+
+                        </a>
+
+                        <span class="premium-qty-number">
+
+                            <%= item.getQuantity() %>
+
+                        </span>
+
+                        <a href="${pageContext.request.contextPath}/cart?action=increase&id=<%= p.getProductId() %>"
+                           class="premium-qty-btn">
+
+                            +
+
+                        </a>
+
+                    </div>
+
+                    <!-- TOTAL -->
+
+                    <p class="premium-total">
+
+                        Total:
+                        ₹ <%= item.getTotalPrice() %>
+
+                    </p>
+
+                    <!-- REMOVE -->
+
+                    <a href="${pageContext.request.contextPath}/remove-cart?id=<%= p.getProductId() %>"
+                       class="premium-remove-btn">
+
+                        Remove Item
+
+                    </a>
+
+                </div>
 
             </div>
 
-            <div class="cart-info">
+            <%
+
+                    }
+
+                }else{
+
+            %>
+
+            <!-- EMPTY CART -->
+
+            <div class="empty-cart-box">
 
                 <h2>
-                    <%= p.getProductName() %>
+                    Your cart is empty
                 </h2>
 
                 <p>
-                    ₹ <%= p.getPrice() %>
+                    Add premium fashion products to your cart.
                 </p>
-
-                <div class="qty-box">
-
-    <a href="${pageContext.request.contextPath}/cart?action=decrease&id=<%= p.getProductId() %>"
-       class="qty-btn">
-        -
-    </a>
-
-    <span class="qty-number">
-        <%= item.getQuantity() %>
-    </span>
-
-    <a href="${pageContext.request.contextPath}/cart?action=increase&id=<%= p.getProductId() %>"
-       class="qty-btn">
-        +
-    </a>
-
-</div>
-
-                <p>
-                    Total:
-                    ₹ <%= item.getTotalPrice() %>
-                </p>
-
-                <a href="${pageContext.request.contextPath}/remove-cart?id=<%= p.getProductId() %>"
-                   class="remove-btn">
-
-                    Remove
-
-                </a>
 
             </div>
 
-        </div>
-
-        <%
+            <%
 
                 }
 
-            }else{
+            %>
 
-        %>
+        </div>
 
-        <h2>Your cart is empty</h2>
+        <!-- RIGHT SIDE -->
 
-        <%
+        <div class="premium-cart-summary">
 
-            }
+            <h2 class="summary-heading">
 
-        %>
+                Order Summary
 
-    </div>
+            </h2>
 
-    <div class="cart-total">
-    <a href="${pageContext.request.contextPath}/checkout"
-   class="checkout-btn">
+            <div class="summary-row">
 
-   Proceed To Checkout
+                <span>Subtotal</span>
 
-</a>
+                <span>₹ <%= total %></span>
 
-        <h2>
-            Total: ₹ <%= total %>
-        </h2>
+            </div>
+
+            <div class="summary-row">
+
+                <span>Shipping</span>
+
+                <span>FREE</span>
+
+            </div>
+
+            <div class="summary-total">
+
+                <span>Total</span>
+
+                <span>₹ <%= total %></span>
+
+            </div>
+
+            <!-- CHECKOUT BUTTON -->
+
+            <a href="${pageContext.request.contextPath}/checkout"
+               class="premium-checkout-btn">
+
+                Proceed To Checkout
+
+            </a>
+
+        </div>
 
     </div>
 
 </div>
+
+<!-- FOOTER -->
 
 <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 

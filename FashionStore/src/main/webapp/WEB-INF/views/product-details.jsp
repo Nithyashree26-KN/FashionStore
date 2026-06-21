@@ -2,13 +2,13 @@
 <%@ page import="com.fashionstore.model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.fashionstore.model.ProductVariant" %>
+<%@ page import="com.fashionstore.utils.ImageUtil" %>
 
 <%
     Product product = (Product) request.getAttribute("product");
 
-List<ProductVariant> variants =
-    (List<ProductVariant>) request.getAttribute("variants");
-%>
+    List<ProductVariant> variants =
+        (List<ProductVariant>) request.getAttribute("variants");
 %>
 
 <!DOCTYPE html>
@@ -19,6 +19,8 @@ List<ProductVariant> variants =
 
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/assets/css/main.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/css/product-details.css?v=3">
 
 </head>
 
@@ -27,14 +29,14 @@ List<ProductVariant> variants =
     <!-- NAVBAR -->
     <jsp:include page="/WEB-INF/views/partials/navbar.jsp" />
 
-    <div class="container">
-
-        <div class="details-container">
+    <div class="details-section">
+        <div class="container">
+            <div class="details-container">
 
             <!-- IMAGE -->
             <div class="details-image">
 
-               <img src="${pageContext.request.contextPath}/<%= product.getImageUrl() %>"
+               <img src="${pageContext.request.contextPath}/<%= ImageUtil.getImageUrl(product) %>"
      alt="Product Image">
 
             </div>
@@ -55,17 +57,23 @@ List<ProductVariant> variants =
     <div class="size-buttons">
 
         <%
-            if(variants != null){
+            if(variants != null && !variants.isEmpty()){
 
                 for(ProductVariant variant : variants){
         %>
 
-            <button class="size-btn">
+            <button class="size-btn" onclick="selectSize(this)">
                 <%= variant.getSize() %>
             </button>
 
         <%
                 }
+            } else {
+        %>
+            <button class="size-btn selected" onclick="selectSize(this)">
+                Standard Size
+            </button>
+        <%
             }
         %>
 
@@ -75,18 +83,28 @@ List<ProductVariant> variants =
                 </p>
 
                 <a href="${pageContext.request.contextPath}/cart?action=add&id=<%= product.getProductId() %>"
-   class="btn">
-    Add To Cart
-</a>
+                   class="cart-btn">
+                    Add To Cart
+                </a>
 
             </div>
 
         </div>
 
     </div>
+    </div>
 
     <!-- FOOTER -->
     <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
+
+<script>
+function selectSize(clickedBtn) {
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    clickedBtn.classList.add('selected');
+}
+</script>
 
 </body>
 </html>

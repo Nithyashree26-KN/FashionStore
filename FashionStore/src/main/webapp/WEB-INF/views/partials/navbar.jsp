@@ -47,19 +47,46 @@
 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    Contact
-                </a>
-            </li>
+           <li>
+
+    <a href="${pageContext.request.contextPath}/search">
+
+        Search
+
+    </a>
+
+</li>
 
         </ul>
 
         <!-- RIGHT SIDE -->
         <div class="nav-actions">
 
-            <a href="${pageContext.request.contextPath}/login">
-                Login
+            <%
+                com.fashionstore.model.User currentUser = (com.fashionstore.model.User) session.getAttribute("user");
+                if (currentUser != null) {
+            %>
+                <div class="profile-dropdown">
+                    <span class="user-avatar">👤 Profile ▼</span>
+                    <div class="profile-menu">
+                        <div class="profile-email"><%= currentUser.getEmail() %></div>
+                        <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
+                            Logout 🚪
+                        </a>
+                    </div>
+                </div>
+            <%
+                } else {
+            %>
+                <a href="${pageContext.request.contextPath}/login">
+                    Login 👤
+                </a>
+            <%
+                }
+            %>
+
+            <a href="#" class="nav-wishlist" id="navbar-wishlist" onclick="goToWishlist(event, '${pageContext.request.contextPath}')">
+                Wishlist ❤️ <span class="wishlist-count" id="wishlist-count">0</span>
             </a>
 
             <a href="${pageContext.request.contextPath}/cart"
@@ -74,3 +101,26 @@
     </div>
 
 </nav>
+
+<script>
+    function goToWishlist(event, contextPath) {
+        event.preventDefault();
+        let savedWishlist = localStorage.getItem('wishlistItems');
+        let items = savedWishlist ? JSON.parse(savedWishlist) : [];
+        let ids = items.join(',');
+        window.location.href = contextPath + '/wishlist?ids=' + ids;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let savedWishlist = localStorage.getItem('wishlistItems');
+        let wishlistCount = 0;
+        if (savedWishlist) {
+            let items = JSON.parse(savedWishlist);
+            wishlistCount = items.length;
+        }
+        let countSpan = document.getElementById('wishlist-count');
+        if (countSpan) {
+            countSpan.innerText = wishlistCount;
+        }
+    });
+</script>

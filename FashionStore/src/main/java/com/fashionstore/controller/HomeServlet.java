@@ -39,7 +39,7 @@ public class HomeServlet extends HttpServlet {
                 categoryDAO.getAllCategories();
 
         List<Product> latestProducts =
-                productDAO.getLatestProducts(0);
+                productDAO.getLatestProducts(4);
 
         // SEND TO JSP
         request.setAttribute(
